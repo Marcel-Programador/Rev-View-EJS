@@ -22,12 +22,12 @@ const userControler = {
     // Ler/Listar um usuário.
     show: (req, res) => {
         const {id} = req.params;
-        const result = users.find((user) => {
+        const result = users.find((user) => 
             // return user.id === id;
             // return user.id.toString() === id;
-            return user.id === parseInt(id);
-        });
-        if(result === undefined){
+            user.id === parseInt(id)
+        );
+        if(!result){
             return res.status(400).json({message: "Nenhum usuário encontrado"});
         }
         return res
@@ -38,21 +38,67 @@ const userControler = {
     // Create
     // Criar um usuário.
     store: (req, res) => {
-        res.send("Store")
+        const {nome, sobrenome, email, idade,} = req.body;
+        if(!nome || !sobrenome || !email || !idade || ""){
+            return res.status(400).json({message: "Preencha todos os campos"})
+        }
+        users.push({
+            id: users.length + 1,
+            nome,
+            sobrenome,
+            email,
+            idade,
+        });
+        return res.status(201).json({message: "Usuário criado com sucesso!"})
     },
     // Update
     // Atualizar um usuário.
     update: (req, res) => {
         const {id} = req.params;
-        // rres.send("Update " + id)
-        res.send(`Update ${id}`)
+        const {nome, sobrenome, email, idade,} = req.body;
+        const result = users.find((user) => 
+            // return user.id === id;
+            // return user.id.toString() === id;
+            user.id === parseInt(id)
+        );
+        if(!result){
+            return res.status(400).json({message: "Nenhum usuário encontrado"});
+        }
+        const newUser = result;
+        if(nome || sobrenome || email || idade){
+            newUser.nome = nome,
+            newUser.sobrenome = sobrenome,
+            newUser.email = email,
+            newUser.idade = idade
+        }
+        return res.status(200).json({message: "Atualização realizada com sucesso."});
+        
+        // if(nome)newUser.nome = nome;
+        // if(sobrenome)newUser.sobrenome = sobrenome;
+        // if(email)newUser.email = email;
+        // if(idade)newUser.idade = idade;
+        // return res
+        //     .status(200)
+        //     .json({message: "Atualização realizada com sucesso."});
+        // res.send("Update " + id)
+        // res.send(`Update ${id}`);
     },
     // Delete
     // Deletar um usuário.
     delete: (req, res) => {
         const {id} = req.params;
-        // rres.send("Delete " + id)
-        res.send(`Delete ${id}`)
+        // const {nome, sobrenome, email, idade,} = req.body;
+        const result = users.findIndex(
+            (user) => 
+            // return user.id === id;
+            // return user.id.toString() === id;
+            user.id === parseInt(id)
+        );
+        if(result === -1){
+            return res.status(400).json({message: "Nenhum usuário encontrado"});
+        }
+        users.splice(result, 1);
+        return res.status(200).json({message: "Usuário deletado com sucesso."});
     },
     save: (req, res) => {
         const {id, name} = req.params;
