@@ -12,17 +12,7 @@ const userControler = {
     // Read
     // Ler/Listar todos os usuários e pode filtrar eles.
     index: (req, res) => {
-        const  users = [
-            {
-                id: 1,
-                nome: "Marcel de Sousa Rocha",
-            },
-            {
-                id: 2,
-                nome: "Michelle de Souza Rocha",
-            }
-        ];
-        res.json({data: users})
+        res.send("Index");
     },
     // Read
     // Ler/Listar um usuário.
